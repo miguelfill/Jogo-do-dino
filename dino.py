@@ -35,11 +35,22 @@ escolhaObstaculo = choice([0, 1])
 pontos = 0
 velocidade = 10
 
-def mensagemPontuacao(msg, tamanho, cor):
+def exibeMensagem(msg, tamanho, cor):
     fonte = pygame.font.SysFont('comicsansms', tamanho, True, False)
     mensagem = f'{msg}'
     textoFormatado = fonte.render(mensagem, True, cor)
     return textoFormatado
+
+def reiniciar():
+    global pontos, velocidade, colidiu, escolhaObstaculo
+    pontos = 0
+    velocidade = 10
+    colidiu = False
+    dino.rect.y = ALTURA - 64 - 96 // 2
+    dino.pulo = False
+    dinoVoador.rect.x = LARGURA
+    cacto.rect.x = LARGURA
+    escolhaObstaculo = choice([0, 1])
 
 class Dino(pygame.sprite.Sprite):
     def __init__(self):
@@ -65,14 +76,14 @@ class Dino(pygame.sprite.Sprite):
 
     def update(self):
         if self.pulo == True:
-            if self.rect.y <= 200:
+            if self.rect.y <= self.pos_y_inicial - 150:
                 self.pulo = False
-            self.rect.y -= 20
+            self.rect.y -= 15
         else:
-            if self.rect.y < self.pos_y_inicial:
-                self.rect.y += 20
-            else:
+            if self.rect.y >= self.pos_y_inicial:
                 self.rect.y = self.pos_y_inicial
+            else:
+                self.rect.y += 15
 
         if self.index_lista > 2:
             self.index_lista = 0
@@ -149,7 +160,7 @@ class DinoVoador(pygame.sprite.Sprite):
 
             if self.index_lista > 1:
                 self.index_lista = 0
-            self.index_lista += 0.25
+            self.index_lista += 0.20
             self.image = self.imagensDinoVoador[int(self.index_lista)]
 
 
@@ -184,11 +195,14 @@ while True:
             pygame.quit()
             exit()
         if event.type == KEYDOWN:
-            if event.key == K_SPACE:
+            if event.key == K_SPACE and colidiu == False:
                 if dino.rect.y != dino.pos_y_inicial:
                     pass
                 else:
                     dino.pular()
+
+            if event.key == K_r and colidiu == True:
+                reiniciar()
 
     colisoes = pygame.sprite.spritecollide(dino, grupo_Obstaculos, False, pygame.sprite.collide_mask)
 
@@ -208,11 +222,15 @@ while True:
     if colidiu == True:
         if pontos % 100 == 0:
             pontos += 1
-        pass
+        gameOver = exibeMensagem('GAME OVER', 40, (0, 0, 0))
+        tela.blit(gameOver, (LARGURA // 2, ALTURA // 2))
+        restart = exibeMensagem('Pressione r para reiniciar', 20, (0, 0, 0))
+        tela.blit(restart, (LARGURA // 2, (ALTURA // 2) + 60))
+
     else:
         pontos += 1
         todasAs_Sprites.update()
-        texto_pontos = mensagemPontuacao(pontos, 40, (0, 0, 0))
+        texto_pontos = exibeMensagem(pontos, 40, (0, 0, 0))
 
     if pontos % 100 == 0:
         somPontuacao.play()
