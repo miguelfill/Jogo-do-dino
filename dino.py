@@ -222,7 +222,6 @@ while True:
             velocidade += 1
 
 
-
     tela.blit(texto_pontos, (520, 30))
 
     pygame.display.flip()
