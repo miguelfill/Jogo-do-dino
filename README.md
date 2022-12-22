@@ -1,6 +1,6 @@
 # Jogo do dino
 
-Neste projeto foi recriado o famoso joguinho que aparece quando está sem internet.
+Neste projeto eu recriei o famoso joguinho que aparece quando está sem internet.
 
 ![Vídeo do jogo](https://github.com/miguelfill/Jogo-do-dino/blob/main/dino-game.gif)
 
