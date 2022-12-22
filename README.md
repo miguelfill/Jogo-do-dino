@@ -4,4 +4,4 @@ Neste projeto foi recriado o famoso joguinho que aparece quando está sem intern
 
 ![Vídeo do jogo](https://github.com/miguelfill/Jogo-do-dino/blob/main/dino-game.gif)
 
-Neste projeto foi utilizada a linguagem Python com algumas de suas bibliotecas, como o pygame e choice.
+Foi utilizada a linguagem Python com algumas de suas bibliotecas, como o pygame e choice.
